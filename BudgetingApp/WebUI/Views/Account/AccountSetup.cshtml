@@ -4,78 +4,76 @@
     ViewBag.Title = "AccountSetup";
 }
 
-<h2>AccountSetup</h2>
+<div class="divide40"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="login-form">
+                <h3>Account Setup</h3>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>AccountSetupViewModel</h4>
-        <hr />
-        @Html.ValidationSummary(true)
+                @using (Html.BeginForm("AccountSetup", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.MemberID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MemberID)
-                @Html.ValidationMessageFor(model => model.MemberID)
+                    <div >
+                       
+                        <hr />
+                        @Html.ValidationSummary(true)
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.MinimumThreshold, new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.MinimumThreshold, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.MinimumThreshold)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AccountName, new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.AccountName, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AccountName)
+                            </div>
+                        </div>
+
+                        
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.StartDate, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.StartDate)
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.AccountLabelID, new { @class = "control-label col-md-4" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(model => model.AccountLabelID, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.AccountLabelID)
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <div class="col-md-offset-4 col-md-8">
+                                <input type="submit" value="Save" class="btn btn-theme-bg" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                }
+                </div>
+            </div>
+                <div>
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+
+                @section Scripts {
+                    @Scripts.Render("~/bundles/jqueryval")
+                }
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AccountLabelID, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AccountLabelID)
-                @Html.ValidationMessageFor(model => model.AccountLabelID)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MinimumThreshold, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.MinimumThreshold)
-                @Html.ValidationMessageFor(model => model.MinimumThreshold)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.AccountName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.AccountName)
-                @Html.ValidationMessageFor(model => model.AccountName)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsPrimary, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IsPrimary)
-                @Html.ValidationMessageFor(model => model.IsPrimary)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.StartDate)
-                @Html.ValidationMessageFor(model => model.StartDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

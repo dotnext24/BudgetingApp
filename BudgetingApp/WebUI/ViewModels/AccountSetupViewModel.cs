@@ -9,18 +9,17 @@ namespace WebUI.ViewModels
 {
     public class AccountSetupViewModel
     {
-        [Required]
-        public string MemberID { get; set; }
+        
         [Required]
         public int AccountLabelID { get; set; }
         [Required]
         public decimal MinimumThreshold { get; set; }
 
+        [Required]
         public string AccountName { get; set; }
+       
         [Required]
-        public bool IsPrimary { get; set; }
-        [Required]
-        
+        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
         public ApplicationUser Member { get; set; }

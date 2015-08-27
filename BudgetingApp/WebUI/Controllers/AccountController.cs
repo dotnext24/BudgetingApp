@@ -15,6 +15,7 @@ namespace WebUI.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
@@ -23,7 +24,11 @@ namespace WebUI.Controllers
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
-            //dfdffdfdfdffd
+            // Start of new code
+            UserManager.UserValidator = new UserValidator<ApplicationUser>(UserManager)
+            {
+                AllowOnlyAlphanumericUserNames = false,
+            };
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }
@@ -79,10 +84,11 @@ namespace WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser() { UserName = model.UserName };
+                var user = new ApplicationUser() { UserName = model.UserName,Email=model.Email,FirstName=model.FirstName,LastName=model.LastName,Phone=model.Phone,IsActive=true,JoiningDate=DateTime.Now };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
                     await SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -95,6 +101,17 @@ namespace WebUI.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
+      
+        public ActionResult AccountSetup()
+        {
+            ViewBag.AccountLevelID = new SelectList(db.AccountLevels, "ID", "Type");
+           
+            return View();
+        }
+
+
+
 
         //
         // POST: /Account/Disassociate

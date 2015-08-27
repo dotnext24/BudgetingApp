@@ -23,6 +23,7 @@ namespace WebUI.Controllers
         public AccountController(UserManager<ApplicationUser> userManager)
         {
             UserManager = userManager;
+            //dfdffdfdfdffd
         }
 
         public UserManager<ApplicationUser> UserManager { get; private set; }

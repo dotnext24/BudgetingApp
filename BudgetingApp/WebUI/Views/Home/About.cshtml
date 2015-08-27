@@ -1,0 +1,67 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<div class="wizard">
+    <div class="step active">
+        some information
+    </div>
+    <div class="step" style="display:none">
+        Step 2 info
+    </div>
+    <div class="step" style="display:none">
+        Step 3 info
+    </div>
+
+    <input type="button" class="prev" style="display: none" value="Previous" />
+    <input type="button" class="next" value="Next" />
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script>
+
+    $(function () {
+        $('.wizard .prev').click(function () {
+            var wizard = $(this).parent('.wizard');
+
+            $('.step.active', wizard).hide();
+
+            var currentStep = $('.step.active', wizard);
+            currentStep.hide();
+            currentStep.removeClass('active');
+
+            var newStep = currentStep.prev('.step', wizard);
+            newStep.addClass('active');
+            newStep.show();
+
+            if ($('.step:first', wizard)[0] == newStep[0]) {
+                $(this).hide();
+            }
+
+            $('.next', wizard).show();
+        });
+
+        $('.wizard .next').click(function () {
+            var wizard = $(this).parent('.wizard');
+
+            $('.step.active', wizard).hide();
+
+            var currentStep = $('.step.active', wizard);
+            currentStep.hide();
+            currentStep.removeClass('active');
+
+            var newStep = currentStep.next('.step', wizard);
+            newStep.addClass('active');
+            newStep.show();
+
+            if ($('.step:last', wizard)[0] == newStep[0]) {
+                $(this).hide();
+            }
+
+            $('.prev', wizard).show();
+        });
+    });
+
+</script>

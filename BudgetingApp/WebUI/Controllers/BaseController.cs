@@ -31,6 +31,13 @@ namespace WebUI.Controllers
                 filterContext.Result = new RedirectResult(Url.Action("AccountSetup", "Account")); 
                 
             }
+            else
+            {
+                if (account.PaymentID == 0 && account.AccountLabelID!=0)
+                    filterContext.Result = new RedirectResult(Url.Action("Receive", "Payment")); 
+                
+
+            }
             
         }
 

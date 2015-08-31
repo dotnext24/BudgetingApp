@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using WebUI.Models;
+using WebUI.ViewModels;
 
 namespace WebUI.Controllers
 {
@@ -105,12 +106,34 @@ namespace WebUI.Controllers
       
         public ActionResult AccountSetup()
         {
+            AccountSetupViewModel model = new AccountSetupViewModel();
+            model.AccountName = User.Identity.GetUserName();
+            model.StartDate = DateTime.Now;
             ViewBag.AccountLevelID = new SelectList(db.AccountLevels, "ID", "Type");
-           
-            return View();
+            return View(model);
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult AccountSetup(AccountSetupViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = db.Users.Where(u => u.UserName == User.Identity.Name).FirstOrDefault();
+                bool isPrimary = (db.Accounts.Where(m => m.MemberID == currentUser.Id).ToList().Any()) ? false : true;
+                db.Accounts.Add(new Account {AccountLabelID=model.AccountLabelID,AccountName=model.AccountName,CreatedDate=DateTime.Now,IsActive=true,IsPrimary=isPrimary,MemberID=currentUser.Id,MinimumThreshold=model.MinimumThreshold,StartDate=model.StartDate });
+                int result=db.SaveChanges();
+                if (result == 1)
+                    return RedirectToAction("Index","Dashboard");
+                else
+                    ModelState.AddModelError("", "Some Problem occured during the operation. Please try after some time.");
 
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
 
 
         //
